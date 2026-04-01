@@ -1,27 +1,28 @@
 project:
-  name: metagenome_plasmid_pipeline
-  output_root: results
-  report_root: report
-  run_mode: cluster
+  name: metagenome_plasmid_pipeline # 项目名称
+  output_root: results # 所有分析结果的根目录
+  report_root: report # 分析报告的根目录
+  run_mode: cluster # 运行模式：集群模式（本地运行改成local即可）
 
-samplesheet: templates/samplesheet.template.csv
+samplesheet: templates/samplesheet.template.csv # 样本表的配置
 
 scheduler:
-  system: slurm
-  queue: normal
-  retries: 2
-  retry_backoff_sec: 300
+  system: slurm # 用Slurm集群调度系统
+  queue: normal # 提交到normal队列
+  retries: 2 # 任务失败自动重试2次
+  retry_backoff_sec: 300 # 重试间隔300秒
 
 resources:
-  default:
+  default: # 普通任务默认资源
     cpus: 4
     mem_gb: 16
-    walltime: "02:00:00"
-  heavy:
+    walltime: "02:00:00" # 运行最长2小时
+  heavy: # 重型任务（组装、比对等）资源
     cpus: 16
     mem_gb: 64
-    walltime: "08:00:00"
+    walltime: "08:00:00" # 运行最长8小时
+
 
 report:
-  format: [html, pdf]
-  image_format: svg
+  format: [html, pdf] # 最终报告输出html和pdf两种格式
+  image_format: svg # 报告里的图片用svg矢量格式，清晰度更高

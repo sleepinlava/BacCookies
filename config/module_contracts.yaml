@@ -1,3 +1,21 @@
+# 分析的流程框架
+
+#flowchart LR
+# A[原始fastq] --> B[质控qc]
+# B --> C[组装assembly]
+# C --> D[同源法质粒鉴定<br>plasmid_identification_homology]
+# C --> E[机器学习法质粒鉴定<br>plasmid_identification_ml]
+# D & E --> F[单样本分箱<br>binning_single_sample]
+# D & E --> G[跨样本合并分箱<br>binning_cross_sample]
+# F & G --> H[聚类分型clustering_typing]
+# F & G --> I[宿主预测host_prediction]
+# F & G --> J[功能注释annotation]
+# J & H & I --> K[比较基因组comparative_genomics]
+# J & H & I --> L[队列统计cohort_statistics]
+# J & H & I --> M[互作网络interaction_network]
+# K & L & M --> N[最终报告report]
+
+
 modules:
   qc:
     input: [raw_fastq]
