@@ -1,0 +1,7 @@
+name: plasmid-pipeline
+channels:
+  - conda-forge
+  - bioconda
+dependencies:
+  - python=3.10
+  - snakemake-minimal>=7.30

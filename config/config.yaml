@@ -1,0 +1,27 @@
+project:
+  name: metagenome_plasmid_pipeline
+  output_root: results
+  report_root: report
+  run_mode: cluster
+
+samplesheet: templates/samplesheet.template.csv
+
+scheduler:
+  system: slurm
+  queue: normal
+  retries: 2
+  retry_backoff_sec: 300
+
+resources:
+  default:
+    cpus: 4
+    mem_gb: 16
+    walltime: "02:00:00"
+  heavy:
+    cpus: 16
+    mem_gb: 64
+    walltime: "08:00:00"
+
+report:
+  format: [html, pdf]
+  image_format: svg

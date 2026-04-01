@@ -1,0 +1,5 @@
+sample_id,platform,group,fastq_1,fastq_2,long_read,methylation_file
+S01,illumina,Case,/data/S01_R1.fastq.gz,/data/S01_R2.fastq.gz,,
+S02,illumina,Control,/data/S02_R1.fastq.gz,/data/S02_R2.fastq.gz,,
+S03,nanopore,Case,,,/data/S03.fastq.gz,/data/S03.methylation.tsv
+S04,pacbio,Control,,,/data/S04.fastq.gz,

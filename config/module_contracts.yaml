@@ -1,0 +1,78 @@
+modules:
+  qc:
+    input: [raw_fastq]
+    output: [clean_fastq, qc_report]
+    resources: {profile: default}
+    retry: {max_attempts: 2, backoff_sec: 300}
+
+  assembly:
+    input: [clean_fastq]
+    output: [contigs_fasta]
+    resources: {profile: heavy}
+    retry: {max_attempts: 1, backoff_sec: 0}
+
+  plasmid_identification_homology:
+    input: [contigs_fasta, plasmid_db]
+    output: [plasmid_candidates_homology]
+    resources: {profile: default}
+    retry: {max_attempts: 2, backoff_sec: 300}
+
+  plasmid_identification_ml:
+    input: [contigs_fasta]
+    output: [plasmid_candidates_ml]
+    resources: {profile: default}
+    retry: {max_attempts: 2, backoff_sec: 300}
+
+  binning_single_sample:
+    input: [plasmid_candidates]
+    output: [bins_single_sample]
+    resources: {profile: heavy}
+    retry: {max_attempts: 1, backoff_sec: 0}
+
+  binning_cross_sample:
+    input: [plasmid_candidates_all_samples]
+    output: [bins_cross_sample]
+    resources: {profile: heavy}
+    retry: {max_attempts: 1, backoff_sec: 0}
+
+  clustering_typing:
+    input: [bins, typing_db]
+    output: [cluster_table, typing_table]
+    resources: {profile: default}
+    retry: {max_attempts: 2, backoff_sec: 300}
+
+  host_prediction:
+    input: [plasmid_sequences, host_db, methylation_signal]
+    output: [host_prediction_table]
+    resources: {profile: default}
+    retry: {max_attempts: 2, backoff_sec: 300}
+
+  annotation:
+    input: [plasmid_sequences, arg_db, vf_db]
+    output: [annotation_table, annotation_gff]
+    resources: {profile: default}
+    retry: {max_attempts: 2, backoff_sec: 300}
+
+  comparative_genomics:
+    input: [plasmid_sequences_all_samples]
+    output: [exchange_events_tsv]
+    resources: {profile: heavy}
+    retry: {max_attempts: 1, backoff_sec: 0}
+
+  cohort_statistics:
+    input: [plasmid_abundance_matrix, group_metadata]
+    output: [differential_plasmids, alpha_diversity, beta_distance_matrix]
+    resources: {profile: default}
+    retry: {max_attempts: 2, backoff_sec: 300}
+
+  interaction_network:
+    input: [plasmid_abundance_matrix, bacterial_abundance_matrix]
+    output: [network_edges_tsv, network_nodes_tsv]
+    resources: {profile: default}
+    retry: {max_attempts: 2, backoff_sec: 300}
+
+  report:
+    input: [all_module_outputs]
+    output: [report_html, report_pdf, figures_svg]
+    resources: {profile: default}
+    retry: {max_attempts: 1, backoff_sec: 0}

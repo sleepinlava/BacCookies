@@ -1,0 +1,14 @@
+jobs: 50
+restart-times: 1
+latency-wait: 60
+printshellcmds: true
+keep-going: true
+cluster: "qsub -q {resources.queue} -l select=1:ncpus={threads}:mem={resources.mem_mb}mb -l walltime={resources.runtime} -N smk-{rule} -o logs/pbs/{rule}.out -e logs/pbs/{rule}.err"
+default-resources:
+  - queue=workq
+  - mem_mb=4000
+  - runtime=01:00:00
+  - tmpdir=/tmp
+jobscript: profiles/pbs/jobscript.sh
+max-jobs-per-second: 5
+max-status-checks-per-second: 5

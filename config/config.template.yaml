@@ -1,0 +1,67 @@
+project:
+  name: metagenome_plasmid_pipeline
+  output_root: results
+  report_root: report
+  run_mode: cluster   # cluster | local
+
+scheduler:
+  system: slurm       # slurm | pbs
+  queue: normal
+  retries: 2
+  retry_backoff_sec: 300
+
+resources:
+  default:
+    cpus: 8
+    mem_gb: 32
+    walltime: "08:00:00"
+  heavy:
+    cpus: 32
+    mem_gb: 256
+    walltime: "48:00:00"
+
+tools:
+  qc:
+    illumina: fastp
+    long_read: filtlong
+  assembly:
+    illumina: megahit
+    nanopore: flye
+    pacbio: hifiasm
+  plasmid_identification:
+    homology: blastn
+    ml: plasclass
+  binning:
+    single_sample: metabat2
+    cross_sample: vamb
+  typing:
+    inc: plasmidfinder
+    mob: mob_suite
+  host_prediction:
+    short_read: hostphinder
+    long_read_methylation: methylhost
+  annotation:
+    arg: rgi
+    vf: abricate
+    generic: prokka
+  comparative_genomics:
+    exchange_events: custom_exchange_detector
+
+paths:
+  databases:
+    plasmid_db: /path/to/plasmid_db
+    arg_db: /path/to/arg_db
+    vf_db: /path/to/vf_db
+    host_db: /path/to/host_db
+
+analysis:
+  grouping_column: group
+  differential_method: wilcoxon
+  alpha_metrics: [shannon, simpson]
+  beta_metrics: [bray_curtis]
+  correlation_method: spearman
+  network_p_adjust: fdr
+
+report:
+  format: [html, pdf]
+  image_format: svg
